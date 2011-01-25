@@ -1,3 +1,5 @@
+require 'omniauth/strategies/recruitmilitary'
+
 module OmniAuth
   module RecruitMilitary
 
