@@ -16,19 +16,27 @@ module OmniAuth
     class Configuration
 
       DEFAULT_SITE             = 'http://connect.recruitmilitary.com'
-      DEFAULT_AUTHORIZE_URL    = DEFAULT_SITE + '/auth/authorize'
-      DEFAULT_ACCESS_TOKEN_URL = DEFAULT_SITE + "/auth/access_token"
+      DEFAULT_AUTHORIZE_URL    = '/auth/authorize'
+      DEFAULT_ACCESS_TOKEN_URL = '/auth/access_token'
       DEFAULT_USER_DATA_URL    = '/auth/user.json'
 
       attr_accessor :site, :authorize_url, :access_token_url, :user_data_url
 
       def initialize(options = {})
-        self.site             = DEFAULT_SITE
-        self.authorize_url    = DEFAULT_AUTHORIZE_URL
-        self.access_token_url = DEFAULT_ACCESS_TOKEN_URL
-        self.user_data_url    = DEFAULT_USER_DATA_URL
+        @site = DEFAULT_SITE
       end
 
+      def authorize_url
+        @site + DEFAULT_AUTHORIZE_URL
+      end
+
+      def access_token_url
+        @site + DEFAULT_ACCESS_TOKEN_URL
+      end
+
+      def user_data_url
+        @site + DEFAULT_USER_DATA_URL
+      end
     end
 
   end
