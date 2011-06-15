@@ -35,7 +35,9 @@ module OmniAuth
             'user_info' => user_hash['user_info'],
             'extra' => {
               'email' => user_hash['email'],
-              'roles' => user_hash['roles']
+              'roles' => user_hash['roles'],
+              'first_name' => user_hash['first_name'],
+              'last_name' => user_hash['last_name']
             }
           })
       end
