@@ -6,7 +6,7 @@ module OmniAuth
     class Recruitmilitary < OAuth2
 
       def initialize(app, api_key = nil, secret_key = nil, options = {}, &block)
-        client_options = options.merge(
+        client_options = options.fetch(:client_options, {}).merge(
           :site             => RecruitMilitary.configuration.site,
           :authorize_url    => RecruitMilitary.configuration.authorize_url,
           :access_token_url => RecruitMilitary.configuration.access_token_url)
