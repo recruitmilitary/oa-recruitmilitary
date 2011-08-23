@@ -17,7 +17,7 @@ describe OmniAuth::RecruitMilitary do
 
     context 'without modification' do
       it 'has sane values' do
-        config.authorize_url.should == 'http://connect.recruitmilitary.com/auth/authorize'
+        config.authorize_url.should == 'http://connect.recruitmilitary.com/oauth/authorize'
       end
     end
 
@@ -25,8 +25,8 @@ describe OmniAuth::RecruitMilitary do
       it 'updates all related urls' do
         config.site = 'http://localhost:3000'
 
-        config.authorize_url.should == 'http://localhost:3000/auth/authorize'
-        config.access_token_url.should == 'http://localhost:3000/auth/access_token'
+        config.authorize_url.should == 'http://localhost:3000/oauth/authorize'
+        config.access_token_url.should == 'http://localhost:3000/oauth/access_token'
         config.user_data_url.should == 'http://localhost:3000/auth/user.json'
       end
     end
