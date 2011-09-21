@@ -37,7 +37,10 @@ module OmniAuth
               'email' => user_hash['email'],
               'roles' => user_hash['roles'],
               'first_name' => user_hash['first_name'],
-              'last_name' => user_hash['last_name']
+              'last_name' => user_hash['last_name'],
+              'military_branch_id' => user_hash['military_branch_id'],
+              'military_status_id' => user_hash['military_status_id'],
+              'gender_id' => user_hash['gender_id'],
             }
           })
       end
