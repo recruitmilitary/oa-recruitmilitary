@@ -1,49 +1,52 @@
-require 'omniauth/oauth'
-require 'multi_json'
+require 'omniauth-oauth2'
 
 module OmniAuth
   module Strategies
-    class Recruitmilitary < OAuth2
+    class Recruitmilitary < ::OmniAuth::Strategies::OAuth2
+      option :name, "recruitmilitary"
 
-      def initialize(app, api_key = nil, secret_key = nil, options = {}, &block)
-        client_options = options.fetch(:client_options, {}).merge(
-          :site             => RecruitMilitary.configuration.site,
-          :authorize_url    => RecruitMilitary.configuration.authorize_url,
-          :access_token_url => RecruitMilitary.configuration.access_token_url)
+      option :client_options, {
+        :site => ::OmniAuth::RecruitMilitary.configuration.site,
+        :authorize_url => ::OmniAuth::RecruitMilitary.configuration.authorize_url,
+        :token_url => ::OmniAuth::RecruitMilitary.configuration.access_token_url,
+      }
 
-        super(app, :recruitmilitary, api_key, secret_key, client_options, &block)
+      uid{ user_hash['id'] }
+
+      info do
+        {
+          :name => user_name,
+          :email => user_hash['email'],
+        }
       end
 
-      protected
-
-      def user_data
-        @data ||= MultiJson.decode(@access_token.get(RecruitMilitary.configuration.user_data_url))
+      extra do
+        {
+          'email' => user_hash['email'],
+          'roles' => user_hash['roles'],
+          'first_name' => user_hash['first_name'],
+          'last_name' => user_hash['last_name'],
+          'military_branch_id' => user_hash['military_branch_id'],
+          'military_status_id' => user_hash['military_status_id'],
+          'gender_id' => user_hash['gender_id'],
+        }
       end
 
-      def request_phase
-        options[:scope] ||= "read"
-        super
+      def raw_info
+        @raw_info ||= @access_token.get(RecruitMilitary.configuration.user_data_url).parsed
       end
 
       def user_hash
-        user_data['user']
+        raw_info['user']
       end
 
-      def auth_hash
-        OmniAuth::Utils.deep_merge(super, {
-            'uid' => user_hash["id"],
-            'user_info' => user_hash['user_info'],
-            'extra' => {
-              'email' => user_hash['email'],
-              'roles' => user_hash['roles'],
-              'first_name' => user_hash['first_name'],
-              'last_name' => user_hash['last_name'],
-              'military_branch_id' => user_hash['military_branch_id'],
-              'military_status_id' => user_hash['military_status_id'],
-              'gender_id' => user_hash['gender_id'],
-            }
-          })
+      def user_name
+        [
+         user_hash['first_name'],
+         user_hash['last_name'],
+        ].join(' ')
       end
+
     end
   end
 end
