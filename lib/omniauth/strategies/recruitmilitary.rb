@@ -20,6 +20,9 @@ module OmniAuth
         }
       end
 
+      # TODO: We probably should just provide user_hash here instead of
+      # specifying each attribute. This is evidenced by the fact that we had
+      # add pay_grade_id here.
       extra do
         {
           'email' => user_hash['email'],
@@ -29,6 +32,7 @@ module OmniAuth
           'military_branch_id' => user_hash['military_branch_id'],
           'military_status_id' => user_hash['military_status_id'],
           'gender_id' => user_hash['gender_id'],
+          'pay_grade_id' => user_hash['pay_grade_id'],
         }
       end
 
